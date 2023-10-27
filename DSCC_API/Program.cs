@@ -1,11 +1,22 @@
+using DSCC_API.DAL;
+using DSCC_API.Models;
+using DSCC_API.Repository;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+string connString = builder.Configuration.GetConnectionString("ConnString");
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<IRepository<Book>, BookRepository>();
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    options.UseSqlServer(connString);
+});
 
 var app = builder.Build();
 
