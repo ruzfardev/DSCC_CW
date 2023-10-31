@@ -51,7 +51,9 @@ namespace DSCC_API.Controllers
                 _bookRepo.Add(book);
                 scope.Complete();
             }
-            return CreatedAtAction(nameof(Get), newBook);
+            newBook = _bookRepo.GetAll().Where(book => book.ISBN == newBook.ISBN).FirstOrDefault();
+            //return CreatedAtAction(nameof(Get), newBook);
+            return Ok(newBook);
         }
 
         // PUT api/<BookController>/5
